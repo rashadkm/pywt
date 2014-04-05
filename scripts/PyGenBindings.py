@@ -1418,6 +1418,8 @@ if __name__ == "__main__":
 	descrroot = sys.argv[1]
 	pysrc = sys.argv[2]
 	# check root dir
+	print '.cl files are to be found in: ' + descrroot
+	print '.pywt source dir: ' + pysrc
 	flist = glob.glob("%s/descr/*.cl" % descrroot)
 	if len(flist) == 0:
 		print "Wrong dir"

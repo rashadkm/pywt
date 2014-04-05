@@ -114,7 +114,7 @@ ADD_DEPENDENCIES(clean_bindings run_python_dump)
 ADD_CUSTOM_TARGET(generate_bindings
     python
     ${CMAKE_SOURCE_DIR}/scripts/PyGenBindings.py
- ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}
+ ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}
 )
 ADD_DEPENDENCIES(generate_bindings clean_bindings)
 
