@@ -98,11 +98,6 @@ ADD_CUSTOM_TARGET(run_python_dump    python_dump
 ADD_DEPENDENCIES(run_python_dump wt python_dump)
 
 
-add_custom_target(really-clean
-  COMMAND "$(CMAKE)" --build "${CMAKE_BINARY_DIR}" clean 
-  COMMAND  "${CMAKE_SOURCE_DIR}/rmdescr.sh" "${CMAKE_BINARY_DIR}" 
-)
-
 # Attention: dependency checking?
 ADD_CUSTOM_TARGET(clean_bindings
     ${CMAKE_SOURCE_DIR}/descr-cleanup.sh
@@ -192,4 +187,10 @@ SUBDIRS(src)
 IF( NOT DEFINED WT_CMAKE_FINDER_INSTALL_DIR )
   SET( WT_CMAKE_FINDER_INSTALL_DIR "share/cmake-2.4/Modules" )
 ENDIF( NOT DEFINED WT_CMAKE_FINDER_INSTALL_DIR)
+
+
+add_custom_target(really-clean
+  COMMAND "$(CMAKE)" --build "${CMAKE_BINARY_DIR}" clean 
+  COMMAND  "${CMAKE_SOURCE_DIR}/rmdescr.sh" "${CMAKE_SOURCE_DIR}" 
+)
 

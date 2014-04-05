@@ -1,5 +1,5 @@
-# These files don't work well with the python scripts
 #!/bin/bash
+# These files don't work well with the python scripts
 
 RMCOMMAND='/bin/rm -f'
 clfiles=("descr/WGLWidget.cl" "descr/WRasterImage.cl" 
