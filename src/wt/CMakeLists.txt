@@ -65,6 +65,7 @@ INCLUDE_DIRECTORIES(
 	../generated/wt/http
 	../generated/wt/chart
 	${WT_SOURCE_DIR}/src
+	${WT_CONFIG_DIR}
 	${PYTHON_INC_DIR}
 )
 

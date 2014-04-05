@@ -322,7 +322,7 @@ def patchChart(clist):
 	# For the moment inheriting from this class is not allowed,
 	# in order to avoid this problem
 	clist["WAbstractChart"].constructor  = None
-	del clist["WChart2DRenderer"].members["location_"] #AxisValue [3]
+	####del clist["WChart2DRenderer"].members["location_"] #AxisValue [3]
 
 
 def patch(prefix, clist):

@@ -77,12 +77,12 @@ class ProxyBase: public AbstractProxy {
 		}
 };
 
-#include <boost/signal.hpp>
+#include <boost/signals2.hpp>
 #include <Wt/WSignal>
 template <class CORE, bool deletable = true> 
 class ProxyWObject: public ProxyBase<CORE, deletable> {
 	protected:
-	    boost::signals::connection conn;
+	    boost::signals2::connection conn;
 
 	public:
 		using ProxyBase<CORE, deletable>::getPyObj;

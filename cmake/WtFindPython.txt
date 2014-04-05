@@ -38,7 +38,7 @@ ELSE(WIN32)
   )
 
   FIND_LIBRARY(PYTHON_LIBRARY
-    NAMES python python2.5 python2.6 python26
+    NAMES python python2.5 python2.6 python26 python27 python2.7
     PATHS ${PYTHON_POSSIBLE_LIB_PATH}
   )
 

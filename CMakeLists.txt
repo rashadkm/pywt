@@ -7,87 +7,101 @@ PROJECT(PYWT)
 
 SET(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE true)
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 INCLUDE(cmake/WtFindBoost.txt)
+#include(cmake/FindWt.cmake)
 
+Find_Package(Wt)
+
+if(NOT CLANG_LIBRARIES OR NOT LLVM_INCLUDE_DIR OR NOT WT_LIB_DIR)
+MESSAGE(FATAL_ERROR "Please set CLANG_LIBRARIES and LLVM_INCLUDE_DIR and WT_LIB_DIR")
+endif(NOT CLANG_LIBRARIES OR NOT LLVM_INCLUDE_DIR OR NOT WT_LIB_DIR)
 
 #For now, we want to be sure that we link against the right llvm with our
 #custom modifications
-IF (NOT EXISTS "${CMAKE_SOURCE_DIR}/llvm")
-  message(FATAL_ERROR "download llvm in directory pywt: git clone git@github.com:wdu/llvm.git")
-ENDIF (NOT EXISTS "${CMAKE_SOURCE_DIR}/llvm")
-IF (NOT EXISTS "${CMAKE_SOURCE_DIR}/llvm/tools/clang")
-  message(FATAL_ERROR "download clang in directory pywt/llvm/tools: git clone git@github.com:wdu/clang.git")
-ENDIF (NOT EXISTS "${CMAKE_SOURCE_DIR}/llvm/tools/clang")
+#IF (NOT EXISTS "${CMAKE_SOURCE_DIR}/llvm")
+#  message(FATAL_ERROR "download llvm in directory pywt: git clone git@github.com:wdu/llvm.git")
+#ENDIF (NOT EXISTS "${CMAKE_SOURCE_DIR}/llvm")
+#IF (NOT EXISTS "${CMAKE_SOURCE_DIR}/llvm/tools/clang")
+#  message(FATAL_ERROR "download clang in directory pywt/llvm/tools: git clone git@github.com:wdu/clang.git")
+#ENDIF (NOT EXISTS "${CMAKE_SOURCE_DIR}/llvm/tools/clang")
 
-INCLUDE(ExternalProject)
-ExternalProject_add(llvm
-        SOURCE_DIR "${CMAKE_SOURCE_DIR}/llvm"
-        CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>/install"
-#          "-DBUILD_SHARED_LIBS=OFF"
-)
+#INCLUDE(ExternalProject)
+#ExternalProject_add(llvm
+#        SOURCE_DIR "${CMAKE_SOURCE_DIR}/llvm"
+#        CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>/install"
+##          "-DBUILD_SHARED_LIBS=OFF"
+#)
 
-IF (WIN32)
-  SET(CLANG_LIBRARIES
-    OPTIMIZED ${CMAKE_BINARY_DIR}/llvm-prefix/install/lib/clang.lib
-    DEBUG ${CMAKE_BINARY_DIR}/llvm-prefix/install/lib/clangd.lib
-  )
-ELSE (WIN32)
-  SET(CLANG_LIBRARIES
-    ${CMAKE_BINARY_DIR}/llvm-prefix/install/lib/libclang.dylib
-  )
-ENDIF (WIN32)
+#IF (WIN32)
+#  SET(CLANG_LIBRARIES
+#    OPTIMIZED ${CMAKE_BINARY_DIR}/llvm-prefix/install/lib/clang.lib
+#    DEBUG ${CMAKE_BINARY_DIR}/llvm-prefix/install/lib/clangd.lib
+#  )
+#ELSE (WIN32)
+#  SET(CLANG_LIBRARIES
+#    ${CMAKE_BINARY_DIR}/llvm-prefix/install/lib/libclang.dylib
+#  )
+#ENDIF (WIN32)
 
 
 #For now, we want to be sure that we link against the right wt with our
 #custom modifications
-IF (NOT EXISTS "${CMAKE_SOURCE_DIR}/wt")
-  message(FATAL_ERROR "download wt in directory pywt")
-ENDIF (NOT EXISTS "${CMAKE_SOURCE_DIR}/wt")
+##IF (NOT EXISTS "${CMAKE_SOURCE_DIR}/wt")
+##  message(FATAL_ERROR "download wt in directory pywt")
+##ENDIF (NOT EXISTS "${CMAKE_SOURCE_DIR}/wt")
 
-include(ExternalProject)
-ExternalProject_add(wt
-	SOURCE_DIR "${CMAKE_SOURCE_DIR}/wt"
-	CMAKE_ARGS
-          "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>/install"
-          "-DDESTDIR=<INSTALL_DIR>/install/"
-# static libs = bad idea; nearly impossible to find out the correct
-# dependencies of the .a file
-#          "-DSHARED_LIBS=OFF"
-#          "-DPOSITION_INDEPENDEND_CODE=ON"
-)
-IF (WIN32)
-  SET(Wt_LIBRARY
-    OPTIMIZED ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/wt.lib
-    DEBUG ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/wtd.lib
-  )
-  SET(Wt_HTTP_LIBRARY
-    OPTIMIZED ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/wthttp.lib
-    DEBUG ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/wthttpd.lib
-  )
-ELSEIF (APPLE)
-  SET(Wt_LIBRARY ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/libwt.dylib)
-  SET(Wt_HTTP_LIBRARY ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/libwthttp.dylib)
-ELSE (APPLE)
-  SET(Wt_LIBRARY ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/libwt.so)
-  SET(Wt_HTTP_LIBRARY ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/libwthttp.so)
-ENDIF (WIN32)
+#include(ExternalProject)
+#ExternalProject_add(wt
+#	SOURCE_DIR "${CMAKE_SOURCE_DIR}/wt"
+#	CMAKE_ARGS
+#          "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>/install"
+#          "-DDESTDIR=<INSTALL_DIR>/install/"
+## static libs = bad idea; nearly impossible to find out the correct
+## dependencies of the .a file
+##          "-DSHARED_LIBS=OFF"
+##          "-DPOSITION_INDEPENDEND_CODE=ON"
+#)
+#IF (WIN32)
+#  SET(Wt_LIBRARY
+#    OPTIMIZED ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/wt.lib
+#    DEBUG ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/wtd.lib
+#  )
+#  SET(Wt_HTTP_LIBRARY
+#    OPTIMIZED ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/wthttp.lib
+#    DEBUG ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/wthttpd.lib
+#  )
+#ELSEIF (APPLE)
+#  SET(Wt_LIBRARY ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/libwt.dylib)
+#  SET(Wt_HTTP_LIBRARY ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/libwthttp.dylib)
+#ELSE (APPLE)
+#  SET(Wt_LIBRARY ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/libwt.so)
+#  SET(Wt_HTTP_LIBRARY ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/libwthttp.so)
+#ENDIF (WIN32)
 
 #link_directories(${CMAKE_BINARY_DIR}/wt-prefix/install/lib)
 
+link_directories(${WT_LIB_DIR})
 SUBDIRS(introspection)
 
-SET(BOOST_INCLUDE_DIRS "/opt/local/include")
-
+#SET(BOOST_INCLUDE_DIRS "/opt/local/include")
+MESSAGE("BOOST_INCLUDE_DIRS=${BOOST_INCLUDE_DIRS}")
+MESSAGE("CMAKE_SOURCE_DIR=${CMAKE_SOURCE_DIR}")
 # Attention: dependency checking for python_dump will NOT be correct!!
-ADD_CUSTOM_TARGET(run_python_dump
-    python_dump
+ADD_CUSTOM_TARGET(run_python_dump    python_dump
     "wt.cc"
-    "-I${CMAKE_BINARY_DIR}/wt-prefix/install/include"
+    "-I${Wt_INCLUDE_DIR}"
     "-I${BOOST_INCLUDE_DIRS}"
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 ADD_DEPENDENCIES(run_python_dump wt python_dump)
+
+
+add_custom_target(really-clean
+  COMMAND "$(CMAKE)" --build "${CMAKE_BINARY_DIR}" clean 
+  COMMAND  "${CMAKE_SOURCE_DIR}/rmdescr.sh" "${CMAKE_BINARY_DIR}" 
+)
 
 # Attention: dependency checking?
 ADD_CUSTOM_TARGET(clean_bindings
@@ -96,12 +110,11 @@ ADD_CUSTOM_TARGET(clean_bindings
 )
 ADD_DEPENDENCIES(clean_bindings run_python_dump)
 
-# Attention: dependency checking for binding generation will NOT be correct!!
+####### Attention: dependency checking for binding generation will NOT be correct!!
 ADD_CUSTOM_TARGET(generate_bindings
     python
-    scripts/PyGenBindings.py
-    .
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/scripts/PyGenBindings.py
+ ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}
 )
 ADD_DEPENDENCIES(generate_bindings clean_bindings)
 
@@ -115,42 +128,42 @@ ENDIF(COMMAND CMAKE_POLICY)
 #SET(CMAKE_EXE_LINKER_FLAGS "-Wl,--as-needed -Wl,-z,defs")
 #SET(CMAKE_SHARED_LINKER_FLAGS "-Wl,--as-needed -Wl,-z,defs")
 
-SET(CMAKE_MODULE_PATH ${PYWT_SOURCE_DIR}/cmake)
+###SET(CMAKE_MODULE_PATH ${PYWT_SOURCE_DIR}/cmake)
 
 #
 # Various things that must be configured by the user or packager ...
 #
 
-SET(LIB_INSTALL_DIR "lib" CACHE STRING
-  "Name for library directory within ${CMAKE_INSTALL_PREFIX}")
+#SET(LIB_INSTALL_DIR "lib" CACHE STRING
+#  "Name for library directory within ${CMAKE_INSTALL_PREFIX}")
 
-IF(WIN32)
-  SET(USERLIB_PREFIX_DEFAULT "c:/libraries")
-ELSE(WIN32)
-  SET(USERLIB_PREFIX_DEFUALT "/usr")
-ENDIF(WIN32)
+#IF(WIN32)
+#  SET(USERLIB_PREFIX_DEFAULT "c:/libraries")
+#ELSE(WIN32)
+#  SET(USERLIB_PREFIX_DEFUALT "/usr")
+#ENDIF(WIN32)
 
-SET(USERLIB_PREFIX ${USERLIB_PREFIX_DEFAULT} CACHE PATH
-    "Installation prefix of dependency libraries")
+#SET(USERLIB_PREFIX ${USERLIB_PREFIX_DEFAULT} CACHE PATH
+#    "Installation prefix of dependency libraries")
 
 ADD_DEFINITIONS(-DNDEBUG)
 
-IF(WIN32)
-  SET(BOOST_PREFIX_DEFAULT "c:/Program Files/Boost")
-  OPTION(BOOST_DYNAMIC "Link to boost DLLs (OFF means static link)" OFF)
-ELSE(WIN32)
-  SET(BOOST_PREFIX_DEFAULT ${USERLIB_PREFIX})
-ENDIF(WIN32)
+###IF(WIN32)
+###  SET(BOOST_PREFIX_DEFAULT "c:/Program Files/Boost")
+###  OPTION(BOOST_DYNAMIC "Link to boost DLLs (OFF means static link)" OFF)
+###ELSE(WIN32)
+###  SET(BOOST_PREFIX_DEFAULT ${USERLIB_PREFIX})
+###ENDIF(WIN32)
 
-SET(BOOST_PREFIX ${BOOST_PREFIX_DEFAULT} CACHE PATH
-  "Installation prefix of boost libraries")
+###SET(BOOST_PREFIX ${BOOST_PREFIX_DEFAULT} CACHE PATH
+###  "Installation prefix of boost libraries")
 
-#FIND_PACKAGE(Wt REQUIRED)
+####FIND_PACKAGE(Wt REQUIRED)
 INCLUDE(cmake/WtFindPython.txt)
 
 INCLUDE_DIRECTORIES(${BOOST_INCLUDE_DIRS})
 #INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
-INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/wt-prefix/install/include)
+INCLUDE_DIRECTORIES(${Wt_INCLUDE_DIR})
 #INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIR})
 INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
 
@@ -170,9 +183,9 @@ IF(NOT CMAKE_BUILD_TYPE)
 ENDIF(NOT CMAKE_BUILD_TYPE)
 
 # Compile time constants & make sure our build finds it
-FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Wt)
-SET(WCONFIG_H_PATH ${CMAKE_CURRENT_BINARY_DIR}/Wt/WConfig.h)
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
+#FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Wt)
+#SET(WCONFIG_H_PATH ${CMAKE_CURRENT_BINARY_DIR}/Wt/WConfig.h)
+#INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
 SUBDIRS(src)
 
