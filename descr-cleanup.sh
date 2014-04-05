@@ -1,8 +1,8 @@
 # These files don't work well with the python scripts
-#!/bin/sh
+#!/bin/bash
 
 RMCOMMAND='/bin/rm -f'
-declare -a clfiles=("descr/WGLWidget.cl" "descr/WRasterImage.cl" 
+clfiles=("descr/WGLWidget.cl" "descr/WRasterImage.cl" 
 "descr/WVmlImage.cl" "descr/WSvgImage.cl" "descr/JSignal.cl" 
 "descr/WIOService.cl" "descr/Signal.cl" "descr/WServer.cl" "descr/Http/Client.cl" 
 "descr/WEvent.cl" "descr/SignalArgTraits.cl" "descr/Http/Message.cl" 
