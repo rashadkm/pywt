@@ -46,41 +46,6 @@ endif(NOT CLANG_LIBRARIES OR NOT LLVM_INCLUDE_DIR OR NOT WT_LIB_DIR)
 #ENDIF (WIN32)
 
 
-#For now, we want to be sure that we link against the right wt with our
-#custom modifications
-##IF (NOT EXISTS "${CMAKE_SOURCE_DIR}/wt")
-##  message(FATAL_ERROR "download wt in directory pywt")
-##ENDIF (NOT EXISTS "${CMAKE_SOURCE_DIR}/wt")
-
-#include(ExternalProject)
-#ExternalProject_add(wt
-#	SOURCE_DIR "${CMAKE_SOURCE_DIR}/wt"
-#	CMAKE_ARGS
-#          "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>/install"
-#          "-DDESTDIR=<INSTALL_DIR>/install/"
-## static libs = bad idea; nearly impossible to find out the correct
-## dependencies of the .a file
-##          "-DSHARED_LIBS=OFF"
-##          "-DPOSITION_INDEPENDEND_CODE=ON"
-#)
-#IF (WIN32)
-#  SET(Wt_LIBRARY
-#    OPTIMIZED ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/wt.lib
-#    DEBUG ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/wtd.lib
-#  )
-#  SET(Wt_HTTP_LIBRARY
-#    OPTIMIZED ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/wthttp.lib
-#    DEBUG ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/wthttpd.lib
-#  )
-#ELSEIF (APPLE)
-#  SET(Wt_LIBRARY ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/libwt.dylib)
-#  SET(Wt_HTTP_LIBRARY ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/libwthttp.dylib)
-#ELSE (APPLE)
-#  SET(Wt_LIBRARY ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/libwt.so)
-#  SET(Wt_HTTP_LIBRARY ${CMAKE_BINARY_DIR}/wt-prefix/install/lib/libwthttp.so)
-#ENDIF (WIN32)
-
-#link_directories(${CMAKE_BINARY_DIR}/wt-prefix/install/lib)
 
 link_directories(${WT_LIB_DIR})
 SUBDIRS(introspection)

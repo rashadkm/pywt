@@ -76,13 +76,28 @@ class ProxyBase: public AbstractProxy {
 			return core;
 		}
 };
-
+#include <boost/version.hpp>
+#define BOOST_MAJOR_VERSION (BOOST_VERSION / 100000)
+#define BOOST_MINOR_VERSION (BOOST_VERSION / 100 % 100)
+#if BOOST_MAJOR_VERSION >= 1
+#if BOOST_MINOR_VERSION >= 54
 #include <boost/signals2.hpp>
+#else
+#include <boost/signals.hpp>
+#endif
 #include <Wt/WSignal>
 template <class CORE, bool deletable = true> 
 class ProxyWObject: public ProxyBase<CORE, deletable> {
 	protected:
+#if BOOST_MINOR_VERSION >= 54
 	    boost::signals2::connection conn;
+#else
+	    boost::signals::connection conn;
+#endif
+
+#else
+#error 'no proper boost'
+#endif
 
 	public:
 		using ProxyBase<CORE, deletable>::getPyObj;
