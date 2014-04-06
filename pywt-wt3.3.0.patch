@@ -1,0 +1,17 @@
+diff -r src/Wt/Http/Request /home/rashad/Downloads/wt-3.3.0/src/Wt/Http/Request
+408c408
+< ~Request();
+---
+> 
+419c419
+<   
+---
+>   ~Request();
+diff -r src/Wt/WEnvironment /home/rashad/Downloads/wt-3.3.0/src/Wt/WEnvironment
+635,636d634
+< ~WEnvironment();
+< 
+669c667
+<   
+---
+>   ~WEnvironment();
