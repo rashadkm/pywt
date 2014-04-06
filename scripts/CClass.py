@@ -454,7 +454,6 @@ class CClass:
 	def __init__(self, name, base, namespace = ''):
 		self.name = name
 		self.corename = name
-		self.written = False
 		self.base = []
 		for b in base:
 			self.base.append(string.split(b, '::')[-1])

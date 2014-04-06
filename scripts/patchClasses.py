@@ -21,6 +21,7 @@ def patchWt(clist):
 
 	# There is a to be investigated problem with tooltips... FIXME
 	del clist["WWidget"].methods["toolTip"]
+#	del clist["WWidget"].methods["removeChild"]
 	del clist["WWebWidget"].methods["toolTip"]
 	del clist["WCompositeWidget"].methods["toolTip"]
 
@@ -105,7 +106,6 @@ def patchWt(clist):
 	del clist["WDate"].methods["toGregorianDate"] #boost::gregorian::date
 	del clist["WCalendar"].methods["dateForCell"] #boost::gregorian::date
 
-
     # string &
 	for ol in clist["WWebWidget"].methods["escapeText"].ol:
 		if len(ol.args.args) == 2 and ol.args.args[0][0] == "std::string &":
@@ -161,6 +161,10 @@ def patchWt(clist):
 	del clist["WApplication"].methods["setTheme"] #FIXME
 
 	del clist["WGoogleMap"].methods["zoomWindow"] # FIXME
+
+#	del clist["WAbstractItemView"].methods["scrolled"] #FIXME
+#	del clist["WTableView"].methods["scrolled"] #FIXME
+#	del clist["WTreeView"].methods["scrolled"] #FIXME
 
 
 	# impossible to subclass or instancate in python because some
@@ -322,7 +326,7 @@ def patchChart(clist):
 	# For the moment inheriting from this class is not allowed,
 	# in order to avoid this problem
 	clist["WAbstractChart"].constructor  = None
-	####del clist["WChart2DRenderer"].members["location_"] #AxisValue [3]
+	del clist["WChart2DRenderer"].members["location_"] #AxisValue [3]
 
 
 def patch(prefix, clist):

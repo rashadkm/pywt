@@ -354,9 +354,8 @@ def generateConversions(l, enumlist, prefix):
 				f.write("%s< const %s& >: public Python2C_cref< %s > {};\n" % arg)
 			if i == 'ref': 
 				f.write("%s< %s& >: public Python2C_ref< %s > {};\n" % arg)
-			if i == 'val' and c.corename == 'Wt::WLineF' and c.written == False: 
+			if i == 'val': 
 				f.write("%s< %s >: public Python2C_val< %s > {};\n" % arg)
-				c.written = True
 			if i == 'cval': 
 				f.write("%s< const %s >: public Python2C_cval< %s > {};\n" % arg)
 		for i in c.fromC:
@@ -1364,7 +1363,7 @@ def createUnit(descrdir, destdir, prefix):
 	#flist = glob.glob("%s/*.enum" % descrdir)
 	enums = []
 	for f in flist:
-		print "Reading", f
+		###print "Reading", f
 		execfile(f)
 
 
@@ -1375,7 +1374,7 @@ def createUnit(descrdir, destdir, prefix):
 	classlist = []
 	globs = {}
 	for f in flist:
-		print "Reading", f
+		###print "Reading", f
 		execfile(f, globs)
 		if ((not globs.has_key('c')) or globs['c'].name == previous):
 			print "   WARNING: No class defined"
@@ -1412,22 +1411,19 @@ if __name__ == "__main__":
 	import glob
 	import sys
 
-	if len(sys.argv) < 2:
-		print 'Insufficient args <descr-root-dir> <src-root-dir>'
 
-	descrroot = sys.argv[1]
-	pysrc = sys.argv[2]
+
+	root = sys.argv[1]
+
 	# check root dir
-	print '.cl files are to be found in: ' + descrroot
-	print '.pywt source dir: ' + pysrc
-	flist = glob.glob("%s/descr/*.cl" % descrroot)
+	flist = glob.glob("%s/descr/*.cl" % root)
 	if len(flist) == 0:
 		print "Wrong dir"
-		exit(1)
+		sys.exit(1)
 
-	if only == "": GenAutoFunctions.write(pysrc + "/src/python")
-	createUnit(descrroot + "/descr/Http", pysrc + "/src/generated/wt/http", "wthttp_")
-	createUnit(descrroot + "/descr", pysrc + "/src/generated/wt", "wt_")
-	createUnit(descrroot + "/descr/Chart", pysrc + "/src/generated/wt/chart", "wtchart_")
-	GenAutoFunctions.write(pysrc + "/src/python")
+	if only == "": GenAutoFunctions.write(root + "/src/python")
+	createUnit(root + "/descr/Http", root + "/src/generated/wt/http", "wthttp_")
+	createUnit(root + "/descr", root + "/src/generated/wt", "wt_")
+	createUnit(root + "/descr/Chart", root + "/src/generated/wt/chart", "wtchart_")
+	GenAutoFunctions.write(root + "/src/python")
 

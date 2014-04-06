@@ -50,10 +50,10 @@ endif(NOT CLANG_LIBRARIES OR NOT LLVM_INCLUDE_DIR OR NOT WT_LIB_DIR)
 link_directories(${WT_LIB_DIR})
 SUBDIRS(introspection)
 
-#SET(BOOST_INCLUDE_DIRS "/opt/local/include")
-MESSAGE("BOOST_INCLUDE_DIRS=${BOOST_INCLUDE_DIRS}")
-MESSAGE("CMAKE_SOURCE_DIR=${CMAKE_SOURCE_DIR}")
-# Attention: dependency checking for python_dump will NOT be correct!!
+########SET(BOOST_INCLUDE_DIRS "/opt/local/include")
+#######MESSAGE("BOOST_INCLUDE_DIRS=${BOOST_INCLUDE_DIRS}")
+#######MESSAGE("CMAKE_SOURCE_DIR=${CMAKE_SOURCE_DIR}")
+######## Attention: dependency checking for python_dump will NOT be correct!!
 ADD_CUSTOM_TARGET(run_python_dump    python_dump
     "wt.cc"
     "-I${Wt_INCLUDE_DIR}"
